@@ -1,0 +1,50 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    padding: 16px;
+}
+
+.navbar__img-container {
+    max-width: 300px;
+}
+
+.navbar__inputs-container {}
+
+.navbar__input {
+    color: black;
+    padding: 6px;
+    background-color: #fff;
+    border: 1px solid red;
+    border-radius: 10px;
+    margin-right: 10px;
+    box-shadow: inset 0px 0px 3px black;
+}
+
+.navbar__input:focus {
+    outline: none;
+    border: 1px solid blue;
+}
+
+.navbar__sort-button {
+    color: black;
+    padding: 6px 10px;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    margin-right: 10px;
+    box-shadow: inset 0px 0px 3px black;
+    cursor: pointer;
+}
+
+.navbar__sort-button:hover {
+    background-color: blue;
+    color: white;
+}

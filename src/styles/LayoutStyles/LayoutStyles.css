@@ -1,0 +1,14 @@
+.layout-container {
+  background-color: white;
+  border: 5px solid red;
+}
+
+.layout-main {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 0.8fr));
+  grid-template-rows: auto;
+  gap: 15px 15px;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 16px;
+}/*# sourceMappingURL=LayoutStyles.css.map */
