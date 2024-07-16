@@ -1,4 +1,5 @@
 const capitalizeText = (text: string) => {
+
     if (typeof text !== 'string') {
         console.error('Must use string type to capitalize text');
         return text;

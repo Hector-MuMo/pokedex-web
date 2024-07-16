@@ -10,7 +10,7 @@ const Layout = ({ children }: LayoutProps) => {
 
     return (
         <div className='layout-container'>
-            <NavBar handleChange={handleChange} />
+            <NavBar />
             <main className='layout-main'>
                 {children}
             </main>

@@ -6,7 +6,7 @@ import Layout from './Layout';
 import './App.css'
 
 function App() {
-    const { pokeList } = usePokemon('pokemon');
+    const { pokeList, pokemon } = usePokemon('pokemon');
 
     const CardList = pokeList.map((pkmn: SimplePkmInfo) =>
         < PokeCard key={pkmn.name} name={pkmn.name} url={pkmn.url} />
@@ -14,7 +14,11 @@ function App() {
 
     return (
         <Layout>
-            {CardList}
+            {pokemon ?
+                <PokeCard pokemon={pokemon} />
+                :
+                CardList
+            }
         </Layout>
     )
 }
