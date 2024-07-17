@@ -6,7 +6,10 @@ import { getPkmnNmbrByUri, completePkmnNmbr } from '../utils/getPkmNmbr';
 interface PokeCardProps {
     name?: string,
     url?: string,
-    pokemon?: object | undefined
+    pokemon?: {
+        id: number,
+        name: string,
+    }
 }
 
 const PokeCard = ({ name, url, pokemon }: PokeCardProps) => {

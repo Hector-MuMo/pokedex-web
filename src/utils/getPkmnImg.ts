@@ -1,6 +1,6 @@
 import { getPkmnNmbrByUri, completePkmnNmbr } from "./getPkmNmbr";
 
-const getPkmnImgByNmbr = (value: string | undefined) => {
+const getPkmnImgByNmbr = (value: number | string | undefined) => {
     let pkmnImg;
 
     if (typeof value === 'string') {

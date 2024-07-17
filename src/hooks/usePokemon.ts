@@ -8,7 +8,8 @@ interface ErrorsProps {
 
 const usePokemon = (endpoint: string) => {
     const [pokeList, setPokeList] = useState<[]>([]);
-    const [pokemon, setPokemon] = useState<[] | undefined>(undefined);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [pokemon, setPokemon] = useState<any | undefined>(undefined);
     const [erros, setErrors] = useState<ErrorsProps>();
     const [loading, setLoading] = useState<boolean>(true);
     const search = useZustandStore((state) => state.search);
@@ -24,7 +25,7 @@ const usePokemon = (endpoint: string) => {
         } catch (error) {
             const err = error as AxiosError;
             setErrors({ errorList: err.message });
-            console.error(err);
+            //console.error(err);
         } finally {
             setLoading(false);
         }
@@ -48,7 +49,8 @@ const usePokemon = (endpoint: string) => {
 
         } catch (error) {
             const err = error as AxiosError
-            console.error(err)
+            setErrors({ errorList: err.message });
+            //console.error(err.message)
         } finally {
             setLoading(false);
         }
