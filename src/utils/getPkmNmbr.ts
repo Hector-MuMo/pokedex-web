@@ -1,3 +1,15 @@
+const getOnlyPokemonId = (uri: string | undefined) => {
+    if (typeof uri !== 'string') {
+        console.error("Can't get rigth pokemon number")
+        return '---'
+    }
+
+    const slicedUri = uri.split('/');
+    const pkmnId = slicedUri[slicedUri.length - 2];
+
+    return pkmnId;
+}
+
 const getPkmnNmbrByUri = (uri: string | undefined) => {
 
     if (typeof uri !== 'string') {
@@ -37,6 +49,7 @@ const completePkmnNmbr = (value: number | undefined) => {
 }
 
 export {
+    getOnlyPokemonId,
     getPkmnNmbrByUri,
     completePkmnNmbr
 }; 
