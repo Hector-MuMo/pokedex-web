@@ -10,6 +10,8 @@ const usePokemon = (endpoint: string) => {
     const [pokeList, setPokeList] = useState<[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [pokemon, setPokemon] = useState<any | undefined>(undefined);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [characteristics, setCharacteristics] = useState<any | undefined>(undefined);
     const [erros, setErrors] = useState<ErrorsProps>();
     const [loading, setLoading] = useState<boolean>(true);
     const search = useZustandStore((state) => state.search);
@@ -31,20 +33,24 @@ const usePokemon = (endpoint: string) => {
         }
     }
 
-    const getSpecificPokemon = async (search: string) => {
+    const getSpecificPokemon = async (id: string) => {
         try {
-            const response = await axios({
-                method: 'get',
-                url: `${import.meta.env.VITE_API_URL}/pokemon/${search}`
-            })
+            if (id) {
+                const response = await axios({
+                    method: 'get',
+                    url: `${import.meta.env.VITE_API_URL}/pokemon/${id}`
+                })
 
-            if (response.data.results) {
-                setPokeList(response.data.results)
-                setPokemon(undefined)
-            } else {
-                //console.log(response.data)
-                setPokeList([])
                 setPokemon(response.data);
+                setPokeList([]);
+            } else {
+                const response = await axios({
+                    method: 'get',
+                    url: `${import.meta.env.VITE_API_URL}/pokemon/`
+                })
+
+                setPokemon(undefined);
+                setPokeList(response.data.results);
             }
 
         } catch (error) {
@@ -53,6 +59,21 @@ const usePokemon = (endpoint: string) => {
             //console.error(err.message)
         } finally {
             setLoading(false);
+        }
+    }
+
+    const getPokemonCharacteristics = async (id: string | undefined) => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${import.meta.env.VITE_API_URL}/characteristic/${id}`
+            });
+
+            setCharacteristics(response.data)
+
+        } catch (error) {
+            const err = error as AxiosError
+            setErrors({ errorList: err.message });
         }
     }
 
@@ -65,7 +86,7 @@ const usePokemon = (endpoint: string) => {
     }, [search]);
 
 
-    return { pokeList, pokemon, loading, erros }
+    return { pokeList, pokemon, characteristics, loading, erros, getSpecificPokemon, getPokemonCharacteristics }
 }
 
 export default usePokemon

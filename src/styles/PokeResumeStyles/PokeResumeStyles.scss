@@ -1,0 +1,197 @@
+@import '../../styles/variables/variables';
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.detail-container {
+    height: 100vh;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $primary-color;
+}
+
+.card {
+    width: 100%;
+    height: fit-content;
+    background-color: $fairy;
+    border-radius: 10px;
+}
+
+.card__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.card__return-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.card__poke-name {
+    margin: 0;
+    text-align: center;
+    color: $white;
+}
+
+.card__poke-number {
+    color: $white;
+}
+
+.card__img-container {
+    width: 100%;
+    height: 300px;
+}
+
+.card__pokeball {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    top: -50px;
+    right: -70px;
+    z-index: 0;
+}
+
+.card__poke-img {
+    position: relative;
+    margin: auto;
+    max-width: 300px;
+}
+
+.card__pokemon {
+    transform: translateY(80px);
+}
+
+.card__details {
+    margin: auto;
+    margin-bottom: 5px;
+    padding-top: 100px;
+    background-color: $white;
+    max-width: 98%;
+    border-radius: 10px;
+}
+
+.card__types {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__specific-type {
+    padding: 4px 10px;
+    margin: 0 5px;
+    border-radius: 15px;
+    background-color: $fairy;
+    color: $white;
+}
+
+.card__title {
+    text-align: center;
+    color: $fairy;
+}
+
+.card__about-container {
+    display: flex;
+    justify-content: center;
+}
+
+
+.card__line,
+.card__line-bottom {
+    margin: 0 30px;
+    border: 1px solid $medium;
+}
+
+.card__line-bottom {
+    margin: 0 10px;
+}
+
+.card__weight-stat,
+.card__height-stat {
+    display: flex;
+
+}
+
+.card__weight,
+.card__height,
+.card__moves {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.card__main-moves {
+    display: flex;
+    flex-direction: column;
+}
+
+.card__weight-img,
+.card__height-img {
+    width: 20px;
+}
+
+.card__about-title {
+    font-size: .8rem;
+    color: $medium;
+}
+
+.card__description {
+    text-align: center;
+}
+
+.card__stats {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+    width: 85%;
+}
+
+.card__stats-names,
+.card__stats-nums {
+    display: flex;
+    flex-direction: column;
+    color: $fairy;
+    font-size: .8rem;
+    font-weight: bolder;
+}
+
+.card__stats-nums {
+    color: $dark-deep;
+    font-weight: normal;
+}
+
+.card__stats-lines {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card__stat-line {
+    position: relative;
+    z-index: 0;
+    margin: 7px 10px;
+    background-color: rgba($color: $fairy, $alpha: .4);
+    width: 200px;
+    height: 5px;
+    border-radius: 10px;
+}
+
+.card__inside-stat-line {
+    width: 45%;
+    height: 5px;
+    position: relative;
+    z-index: 10;
+    margin: 0;
+    background-color: $fairy;
+}
+
+@media (min-width: 480px) {
+    .card {
+        width: 450px;
+    }
+}

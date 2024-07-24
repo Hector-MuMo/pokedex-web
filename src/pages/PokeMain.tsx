@@ -53,7 +53,7 @@ const PokeMain = () => {
     useEffect(() => {
         sortList(sortByName);
 
-    }, [sortByName, pokeList]);
+    }, [sortByName, pokeList, pokemon]);
 
     return (
 

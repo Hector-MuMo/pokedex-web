@@ -17,11 +17,11 @@ const router = createBrowserRouter([
                 path: "/",
                 element: <PokeMain />
             },
-            {
-                path: "/pokemons/:id",
-                element: <PokeResume />
-            }
         ]
+    },
+    {
+        path: "/pokemons/:id",
+        element: <PokeResume />
     }
 
 ]);
