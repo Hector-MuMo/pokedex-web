@@ -7,14 +7,21 @@ interface ErrorsProps {
 }
 
 const usePokemon = (endpoint: string) => {
-    const [pokeList, setPokeList] = useState<[]>([]);
+    const search = useZustandStore((state) => state.search);
+    const handleChangePokeList = useZustandStore((state) => state.handlePokeList);
+    const next = useZustandStore((state) => state.nextUri);
+    const handleChangeNext = useZustandStore((state) => state.handleNextUri);
+    const prev = useZustandStore((state) => state.prevUri);
+    const handleChangePrev = useZustandStore((state) => state.handlePrevUri);
+    //const [pokeList, setPokeList] = useState<[]>([]);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [pokemon, setPokemon] = useState<any | undefined>(undefined);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [characteristics, setCharacteristics] = useState<any | undefined>(undefined);
     const [erros, setErrors] = useState<ErrorsProps>();
     const [loading, setLoading] = useState<boolean>(true);
-    const search = useZustandStore((state) => state.search);
+    //const [prev, setPrev] = useState<string | null>(null);
+    //const [next, setNext] = useState<string | null>(null);
 
     const getPokemonList = async (endpoint: string) => {
         try {
@@ -22,7 +29,7 @@ const usePokemon = (endpoint: string) => {
                 method: 'get',
                 url: `${import.meta.env.VITE_API_URL}/${endpoint}`,
             })
-            setPokeList(response.data.results);
+            handleChangePokeList(response.data.results);
 
         } catch (error) {
             const err = error as AxiosError;
@@ -42,7 +49,7 @@ const usePokemon = (endpoint: string) => {
                 })
 
                 setPokemon(response.data);
-                setPokeList([]);
+                handleChangePokeList([]);
             } else {
                 const response = await axios({
                     method: 'get',
@@ -50,7 +57,10 @@ const usePokemon = (endpoint: string) => {
                 })
 
                 setPokemon(undefined);
-                setPokeList(response.data.results);
+                handleChangePokeList(response.data.results);
+                handleChangeNext(response.data.next);
+                handleChangePrev(response.data.previous);
+                console.log(next);
             }
 
         } catch (error) {
@@ -77,6 +87,61 @@ const usePokemon = (endpoint: string) => {
         }
     }
 
+    const getEvolutionsChain = async (id: string) => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${import.meta.env.VITE_API_URL}/evolution-chain/${id}`
+            })
+            console.log(response.data);
+
+        } catch (error) {
+            const err = error as AxiosError;
+            setErrors({ errorList: err.message });
+            //console.error(err);
+        }
+    }
+
+    const getNextList = async (next: string | null) => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${next}`
+            });
+
+            handleChangePokeList(response.data.results);
+            handleChangeNext(response.data.next);
+            handleChangePrev(response.data.previous);
+
+        } catch (error) {
+            const err = error as AxiosError;
+            setErrors({ errorList: err.message });
+            //console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const getPrevList = async (prev: string | null) => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `${prev}`
+            });
+
+            handleChangePokeList(response.data.results);
+            handleChangeNext(response.data.next);
+            handleChangePrev(response.data.previous);
+
+        } catch (error) {
+            const err = error as AxiosError;
+            setErrors({ errorList: err.message });
+            //console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         getPokemonList(endpoint);
     }, [endpoint])
@@ -86,7 +151,19 @@ const usePokemon = (endpoint: string) => {
     }, [search]);
 
 
-    return { pokeList, pokemon, characteristics, loading, erros, getSpecificPokemon, getPokemonCharacteristics }
+    return {
+        pokemon,
+        characteristics,
+        loading,
+        erros,
+        next,
+        prev,
+        getSpecificPokemon,
+        getPokemonCharacteristics,
+        getEvolutionsChain,
+        getNextList,
+        getPrevList
+    }
 }
 
 export default usePokemon

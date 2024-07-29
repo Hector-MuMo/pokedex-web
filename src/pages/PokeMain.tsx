@@ -3,12 +3,14 @@ import usePokemon from '../hooks/usePokemon';
 import useZustandStore from '../hooks/useZustandStore';
 import { SimplePkmInfo } from '../types';
 import PokeCard from '../components/PokeCard';
+import '../styles/PokeMainStyles/PokeMain.css';
 
 
 const PokeMain = () => {
-    const { pokeList, pokemon } = usePokemon('pokemon');
+    const sortByName = useZustandStore(state => state.sortByName);
+    const pokeList = useZustandStore(state => state.pokeList);
+    const { pokemon, next, prev, getNextList, getPrevList } = usePokemon('pokemon');
     const [sortedList, setSortedList] = useState<[] | undefined>(undefined);
-    const sortByName = useZustandStore(state => state.sortByName)
 
     const sortList = (value: boolean) => {
         const newList: [] = [...pokeList]
@@ -41,6 +43,14 @@ const PokeMain = () => {
         }
     }
 
+    const handlePrevPage = () => {
+        getPrevList(prev)
+    }
+
+    const handleNextPage = () => {
+        getNextList(next)
+    }
+
     const CardList = sortedList ?
         sortedList.map((pkmn: SimplePkmInfo) =>
             < PokeCard key={pkmn.name} name={pkmn.name} url={pkmn.url} />
@@ -52,7 +62,6 @@ const PokeMain = () => {
 
     useEffect(() => {
         sortList(sortByName);
-
     }, [sortByName, pokeList, pokemon]);
 
     return (
@@ -60,7 +69,17 @@ const PokeMain = () => {
         pokemon ?
             <PokeCard pokemon={pokemon} />
             :
-            CardList
+            <div className='main-container'>
+
+                <div>
+                    <button onClick={() => handlePrevPage()}>Prev</button>
+                    <button onClick={() => handleNextPage()}>Next</button>
+                </div>
+                <div className='cards-container'>
+                    {CardList}
+                </div>
+
+            </div>
 
     )
 }

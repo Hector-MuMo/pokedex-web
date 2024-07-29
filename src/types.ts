@@ -95,13 +95,17 @@ type SimplePkmInfo = {
 type State = {
     search: string,
     sortByName: boolean,
-
+    pokeList: [],
+    nextUri: string,
+    prevUri: string,
 }
 
 type Actions = {
     handleSearch: (value: string) => void,
-    handleSortPokemon: (value: boolean) => void
-
+    handleSortPokemon: (value: boolean) => void,
+    handlePokeList: (list: []) => void,
+    handleNextUri: (uri: string) => void,
+    handlePrevUri: (uri: string) => void,
 }
 
 export type {

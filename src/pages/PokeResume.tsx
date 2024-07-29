@@ -3,120 +3,22 @@ import pokeball from '../assets/icons/pokeball.png';
 import weigth from '../assets/icons/weight.png';
 import straighten from '../assets/icons/straighten.png';
 import { Link, useParams } from 'react-router-dom'
-import '../styles/PokeResumeStyles/PokeResumeStyles.css';
 import usePokemon from '../hooks/usePokemon';
 import { useEffect, useState } from 'react';
 import capitalizeText from '../utils/capitalizeText';
 import { completePkmnNmbr } from '../utils/getPkmNmbr';
 import getPkmnImgByNmbr from '../utils/getPkmnImg';
-import { getPkmnHexColor } from '../utils/getPkmnColor';
-import { getPercentStat, getUniqueId } from '../utils/getPercentStat';
-
-interface PokeTypesProps {
-    types: [
-        {
-            type: {
-                name: string,
-                ur: string
-            }
-        }
-    ],
-    getPrimaryTypeColor: (color: string) => void
-}
-
-const PokeTypes = ({ types, getPrimaryTypeColor }: PokeTypesProps) => {
-    const [colorType, setColorType] = useState<string>('');
-
-    const getFirstType = () => {
-        const firstType = types[0].type.name;
-        const mainColor = getPkmnHexColor(firstType);
-        setColorType(mainColor);
-    }
-
-    const list = types ?
-        types.map((item) => {
-            return <span key={getUniqueId()} className='card__specific-type' style={{ backgroundColor: getPkmnHexColor(item.type.name) }}>{item.type.name}</span>
-        }
-        )
-        :
-        <span className='card__specific-type'>poke type</span>
-
-    useEffect(() => {
-        getPrimaryTypeColor(colorType)
-    }, [colorType])
-
-    useEffect(() => {
-        getFirstType();
-    }, [types]);
-
-    return (
-        list
-    )
-}
-
-interface PokeMovesProps {
-    moves: [
-        {
-            move: {
-                name: string,
-                url: string
-            }
-        }
-    ]
-}
-
-const PokeMoves = ({ moves }: PokeMovesProps) => {
-
-    const list = moves ? moves.slice(0, 4).map((item) => <span key={getUniqueId()} className=''>{item.move.name}</span>)
-        : <span>No moves abailable</span>
-
-    return (
-        list
-    )
-}
-
-interface PokeStatsProps {
-    stats: [
-        {
-            base_stat: number
-            effort: number
-            stat: {
-                name: string
-                url: string
-            }
-        }
-    ],
-    color: string
-}
-
-const PokeStats = ({ stats, color }: PokeStatsProps) => {
-
-    const statsList = stats.map(item => <span key={getUniqueId()} >{item.base_stat}</span>);
-
-    const lineList = stats.map(item =>
-        <div key={getUniqueId()} className='card__stat-line ' style={{ backgroundColor: `${color}50` }}>
-            <div className='card__inside-stat-line' style={{ backgroundColor: color, width: `${getPercentStat(item.base_stat)}%` }}></div>
-        </div>);
-
-    return (
-        <>
-            <div className='card__stats-nums'>
-                {statsList}
-            </div>
-
-            <div className='card__stats-lines'>
-                {lineList}
-            </div>
-        </>
-    )
-}
-
+import PokeStats from '../components/PokeStats';
+import PokeTypes from '../components/PokeTypes';
+import PokeMoves from '../components/PokeMoves';
+import loader from '../assets/getting_ready.gif';
+import '../styles/PokeResumeStyles/PokeResumeStyles.css';
 
 const PokeResume = () => {
     const { id } = useParams();
     const { pokemon, getSpecificPokemon } = usePokemon('');
     const [primaryColor, setPrimaryColor] = useState('');
-    const { characteristics, getPokemonCharacteristics } = usePokemon('');
+    const audio = new Audio(pokemon?.cries.latest ?? '');
 
     const getPokemon = () => {
         if (id) {
@@ -130,7 +32,6 @@ const PokeResume = () => {
 
     useEffect(() => {
         getPokemon();
-        getPokemonCharacteristics(id)
     }, [id]);
 
     useEffect(() => {
@@ -158,7 +59,8 @@ const PokeResume = () => {
                         <figure className='card__poke-img'>
                             <img className='card__pokeball' src={pokeball} alt='pokeball' />
                             <img className='card__pokemon'
-                                src={getPkmnImgByNmbr(pokemon.id)} alt={pokemon.name} />
+                                src={getPkmnImgByNmbr(pokemon.id)} alt={pokemon.name} onClick={() => audio.play()} />
+                            <audio src={pokemon.cries.latest} autoPlay={true}></audio>
                         </figure>
                     </div>
 
@@ -231,7 +133,7 @@ const PokeResume = () => {
             :
 
             <div className='detail-container'>
-                <span>Loader</span>
+                <img className='loader' src={loader} alt='loader' />
             </div>
     )
 }
